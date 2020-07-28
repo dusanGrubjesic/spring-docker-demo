@@ -1,7 +1,9 @@
 package com.sample.code.simpledemo.repositories;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -18,6 +20,8 @@ import java.util.Date;
 @Entity(name = "articles")
 @EntityListeners(AuditingEntityListener.class)
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Article {
 
 	@Id
