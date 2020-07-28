@@ -1,6 +1,6 @@
 package com.sample.code.simpledemo.security;
 
-import com.sample.code.simpledemo.repositories.User;
+import com.sample.code.simpledemo.repositories.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -20,7 +21,7 @@ import java.util.Optional;
  * @author dusan.grubjesic
  */
 @Configuration
-public class SecurityManager extends WebSecurityConfigurerAdapter implements AuditorAware<User> {
+public class SecurityManager extends WebSecurityConfigurerAdapter implements AuditorAware<UserEntity> {
 
 	@Autowired
 	private UserDetailsServiceImpl userDetailsServiceImpl;
@@ -50,9 +51,11 @@ public class SecurityManager extends WebSecurityConfigurerAdapter implements Aud
 	}
 
 	@Override
-	public Optional<User> getCurrentAuditor() {
+	public Optional<UserEntity> getCurrentAuditor() {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-		return Optional.of(((User) authentication.getPrincipal()));
+		UserEntity userEntity = new UserEntity();
+		userEntity.setUser(((User) authentication.getPrincipal()).getUsername());
+		userEntity.setPwd(((User) authentication.getPrincipal()).getPassword());
+		return Optional.of(userEntity);
 	}
 }

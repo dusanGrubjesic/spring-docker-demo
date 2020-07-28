@@ -1,7 +1,6 @@
 package com.sample.code.simpledemo.controllers;
 
 import com.sample.code.simpledemo.repositories.*;
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,9 +33,8 @@ public class ArticlesController {
 
 	@PostMapping("/my")
 	public int createArticle(@Autowired Principal principal, @Valid @RequestBody Article article) {
-		User creator = userRepository.getByUser(principal.getName());
+		UserEntity creator = userRepository.getByUser(principal.getName());
 		article.setCreator(creator);
-		article.setCreated(DateTime.now().toDate());
 		return articlesRepository.save(article).getId();
 	}
 
@@ -53,7 +51,6 @@ public class ArticlesController {
 		if (articleMix.getImage() != null) {
 			changedArticle.setImage(articleMix.getImage());
 		}
-		changedArticle.setModified(DateTime.now().toDate());
 		return articlesRepository.save(changedArticle);
 	}
 }

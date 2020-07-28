@@ -1,6 +1,5 @@
 package com.sample.code.simpledemo.repositories;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -13,7 +12,7 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 @Entity(name = "users")
-public class User {
+public class UserEntity {
 
 	@Id
 	@Column(name = "user_name")
@@ -21,6 +20,5 @@ public class User {
 
 	@NotNull
 	@Column(name = "password")
-	@JsonIgnore
 	private String pwd;
 }

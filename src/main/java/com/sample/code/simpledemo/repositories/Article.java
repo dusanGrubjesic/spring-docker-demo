@@ -3,6 +3,9 @@ package com.sample.code.simpledemo.repositories;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -13,6 +16,7 @@ import java.util.Date;
  * @author dusan.grubjesic
  */
 @Entity(name = "articles")
+@EntityListeners(AuditingEntityListener.class)
 @Data
 public class Article {
 
@@ -23,7 +27,7 @@ public class Article {
 	@CreatedBy
 	@ManyToOne
 	@JsonIgnore
-	private User creator;
+	private UserEntity creator;
 
 	@NotNull
 	private String name;
@@ -31,8 +35,12 @@ public class Article {
 	@NotNull
 	private String text;
 
+	@CreatedDate
+	@Column(nullable = false, updatable = false)
 	private Date created;
 
+	@LastModifiedDate
+	@Column(nullable = false)
 	private Date modified;
 
 	private byte[] image;

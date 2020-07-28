@@ -11,5 +11,5 @@ public interface ArticlesRepository extends JpaRepository<Article, Integer> {
 
 	Article getById(int id);
 
-	List<Article> findAllByCreator(User creator);
+	List<Article> findAllByCreator(UserEntity creator);
 }
