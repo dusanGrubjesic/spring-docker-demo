@@ -22,7 +22,7 @@ public class Article {
 
 	@CreatedBy
 	@ManyToOne
-	@JsonIgnore()
+	@JsonIgnore
 	private User creator;
 
 	@NotNull

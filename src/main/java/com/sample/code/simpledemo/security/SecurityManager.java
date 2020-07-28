@@ -30,7 +30,7 @@ public class SecurityManager extends WebSecurityConfigurerAdapter implements Aud
 		http.csrf().disable()
 				.authorizeRequests()
 				.antMatchers(HttpMethod.POST, "/user").permitAll()
-				.antMatchers( "/article/public").permitAll()
+				.antMatchers("/article/public").permitAll()
 				.and()
 				.authorizeRequests()
 				.antMatchers("/user/**").authenticated()
