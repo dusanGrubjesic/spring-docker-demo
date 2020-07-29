@@ -9,7 +9,5 @@ import java.util.List;
  */
 public interface ArticlesRepository extends JpaRepository<Article, Integer> {
 
-	Article getById(int id);
-
 	List<Article> findAllByCreator(UserEntity creator);
 }
