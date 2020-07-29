@@ -37,6 +37,6 @@ to start the app run docker image exposing port 8080:
 
 `curl -X PATCH
   http://localhost:8080/article/my/1
-  -H 'authorization: Basic ZHVzMTpwYXNzMQ=='
+  -H 'authorization: Basic dXNlcjE6cGFzczE='
   -H 'content-type: application/json'
   -d '{"name": "changed tex", "text":"like to change my text"}'`
