@@ -24,16 +24,30 @@ public class ArticlesController {
 	@Autowired
 	private UserRepository userRepository;
 
+	/**
+	 * @return Gets all public articles. For demo only public articles exist
+	 */
 	@GetMapping("/public")
 	public List<Article> getAllArticles() {
 		return articlesRepository.findAll();
 	}
 
+	/**
+	 * Returns articles of requesting user
+	 * @param principal
+	 * @return List of all articles writen by user
+	 */
 	@GetMapping("/my")
 	public List<Article> getAllMyArticles(@Autowired Principal principal) {
 		return articlesRepository.findAllByCreator(userRepository.getByUser(principal.getName()));
 	}
 
+	/**
+	 * Creates article and sets principle as creator of article
+	 * @param principal
+	 * @param article
+	 * @return
+	 */
 	@PostMapping("/my")
 	public int createArticle(@Autowired Principal principal, @Valid @RequestBody Article article) {
 		UserEntity creator = userRepository.getByUser(principal.getName());
@@ -41,6 +55,15 @@ public class ArticlesController {
 		return articlesRepository.save(article).getId();
 	}
 
+	/**
+	 * First check if article with param id exists and changes any one of three changeable fields: name,
+	 * text and image
+	 * Rest response ignores {@link UserEntity} to showcase practice of not returning password information
+	 * @param principal
+	 * @param id
+	 * @param articleMix Article without bean validation
+	 * @return newly changed article
+	 */
 	@PatchMapping("/my/{id}")
 	public Article createArticle(@Autowired Principal principal,
 	                             @PathVariable int id,
