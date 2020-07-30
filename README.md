@@ -3,8 +3,6 @@
 ### Building docker image
 to build docker image choose name for image, for example `spring-boot-docker`
 
-`./mvnw install`
-
 `docker build -t spring-boot-demo .`
 
 
