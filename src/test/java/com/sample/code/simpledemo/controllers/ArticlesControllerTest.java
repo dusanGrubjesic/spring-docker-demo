@@ -142,13 +142,11 @@ public class ArticlesControllerTest {
 		// create article
 		RequestBuilder requestBuilder2 = MockMvcRequestBuilders.post("/article/my")
 				.content(objectMapper.writeValueAsString(a1))
-				.header(HttpHeaders.AUTHORIZATION, "Basic dXNlcjE6cGFzczE=")
 				.contentType(MediaType.APPLICATION_JSON);
 		mockMvc.perform(requestBuilder2);
 		//patch user
 		RequestBuilder requestBuilder3 =MockMvcRequestBuilders.patch("/user/me")
 				.content(objectMapper.writeValueAsString(ue2))
-				.header(HttpHeaders.AUTHORIZATION, "Basic dXNlcjE6cGFzczE=")
 				.contentType(MediaType.APPLICATION_JSON);
 		mockMvc.perform(requestBuilder3);
 
