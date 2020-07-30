@@ -38,14 +38,14 @@ public class UserController {
 	 * Note: Bad practice for password to be changed like this but for demo purpose is ok
 	 * Note: Bad practice for user to be changed like this. Better to set id as UUID and change only
 	 * name but for demo purpose is ok
-	 * @param principal user extracted from basic auth
-	 * @param userEntity
 	 * @return changed user entity of principal
 	 */
 	@PatchMapping("/me")
-	public UserEntity patchUser(@Autowired Principal principal, @Valid @RequestBody UserEntity userEntity) {
-		userEntity.setPwd(passwordEncoder.encode(userEntity.getPwd()));
-		userRepository.deleteById(principal.getName());
+	public UserEntity patchUser(@Autowired Principal principal,
+	                            @Valid @RequestBody UserEntity changedUserEntity) {
+		UserEntity userEntity = userRepository.getByUser(principal.getName());
+		userEntity.setUser(changedUserEntity.getUser());
+		userEntity.setPwd(passwordEncoder.encode(changedUserEntity.getPwd()));
 		return userRepository.save(userEntity);
 	}
 

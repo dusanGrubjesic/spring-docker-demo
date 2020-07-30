@@ -28,7 +28,6 @@ public class Article {
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private int id;
 
-	@CreatedBy
 	@ManyToOne
 	@JsonIgnore
 	private UserEntity creator;

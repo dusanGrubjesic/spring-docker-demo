@@ -52,6 +52,7 @@ public class ArticlesController {
 	public int createArticle(@Autowired Principal principal, @Valid @RequestBody Article article) {
 		UserEntity creator = userRepository.getByUser(principal.getName());
 		article.setCreator(creator);
+		userRepository.save(creator);
 		return articlesRepository.save(article).getId();
 	}
 
@@ -67,7 +68,7 @@ public class ArticlesController {
 	@PatchMapping("/my/{id}")
 	public Article createArticle(@Autowired Principal principal,
 	                             @PathVariable int id,
-	                             @RequestBody ArticleMix articleMix) {
+	                             @RequestBody Article articleMix) {
 		Optional<Article> optChangedArticle =
 				articlesRepository.findAllByCreator(userRepository.getByUser(principal.getName()))
 						.stream()

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
  * @author dusan.grubjesic
  */
 @Repository
-public interface UserRepository extends JpaRepository<UserEntity, String> {
+public interface UserRepository extends JpaRepository<UserEntity, Integer> {
 
 	UserEntity getByUser(String userName);
 }
