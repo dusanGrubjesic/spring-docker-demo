@@ -18,6 +18,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Collections;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -74,7 +76,7 @@ public class UserEntityControllerTest {
 	@Test
 	@WithMockUser(username = "user1", password = "pass1", roles = "USER")
 	public void it_should_patch_user() throws Exception {
-		UserEntity ue = new UserEntity(1, "user1", "pass1");
+		UserEntity ue = new UserEntity(1, "user1", "pass1", Collections.emptyList());
 		userRepository.save(ue);
 
 		UserEntity patch = new UserEntity();

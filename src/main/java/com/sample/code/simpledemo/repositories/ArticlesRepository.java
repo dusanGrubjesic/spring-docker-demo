@@ -8,6 +8,4 @@ import java.util.List;
  * @author dusan.grubjesic
  */
 public interface ArticlesRepository extends JpaRepository<Article, Integer> {
-
-	Article findByIdAndAllByCreator(UserEntity creator);
 }
