@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @author dusan.grubjesic
@@ -26,4 +27,7 @@ public class UserEntity {
 	@NotNull
 	@Column(name = "password")
 	private String pwd;
+
+	@OneToMany(targetEntity = Article.class, cascade = CascadeType.ALL)
+	private List<Article> articles;
 }

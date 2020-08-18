@@ -8,6 +8,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.security.Principal;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +40,7 @@ public class ArticlesController {
 	 */
 	@GetMapping("/my")
 	public List<Article> getAllMyArticles(@Autowired Principal principal) {
-		return articlesRepository.findAllByCreator(userRepository.getByUser(principal.getName()));
+		return userRepository.getByUser(principal.getName()).getArticles();
 	}
 
 	/**
@@ -51,9 +52,11 @@ public class ArticlesController {
 	@PostMapping("/my")
 	public int createArticle(@Autowired Principal principal, @Valid @RequestBody Article article) {
 		UserEntity creator = userRepository.getByUser(principal.getName());
-		article.setCreator(creator);
-		userRepository.save(creator);
-		return articlesRepository.save(article).getId();
+		creator.getArticles().add(article);
+		return userRepository.save(creator).getArticles().stream()
+				.min(Comparator.comparingInt(Article::getId))
+				.get()
+				.getId();
 	}
 
 	/**
@@ -62,31 +65,28 @@ public class ArticlesController {
 	 * Rest response ignores {@link UserEntity} to showcase practice of not returning password information
 	 * @param principal
 	 * @param id
-	 * @param articleMix Article without bean validation
+	 * @param article Article without bean validation
 	 * @return newly changed article
 	 */
 	@PatchMapping("/my/{id}")
 	public Article createArticle(@Autowired Principal principal,
 	                             @PathVariable int id,
-	                             @RequestBody Article articleMix) {
-		Optional<Article> optChangedArticle =
-				articlesRepository.findAllByCreator(userRepository.getByUser(principal.getName()))
-						.stream()
-						.filter(s -> s.getId() == id)
-						.findFirst();
+	                             @RequestBody Article article) {
+		Optional<Article> optChangedArticle = Optional.ofNullable(
+				userRepository.getByUser(principal.getName()).getArticles().get(id));
 		if (!optChangedArticle.isPresent()) {
 			throw new ResponseStatusException(
 					HttpStatus.NOT_FOUND, "Article Not Found");
 		}
 		Article changedArticle = optChangedArticle.get();
-		if (articleMix.getName() != null) {
-			changedArticle.setName(articleMix.getName());
+		if (article.getName() != null) {
+			changedArticle.setName(article.getName());
 		}
-		if (articleMix.getText() != null) {
-			changedArticle.setText(articleMix.getText());
+		if (article.getText() != null) {
+			changedArticle.setText(article.getText());
 		}
-		if (articleMix.getImage() != null) {
-			changedArticle.setImage(articleMix.getImage());
+		if (article.getImage() != null) {
+			changedArticle.setImage(article.getImage());
 		}
 		return articlesRepository.save(changedArticle);
 	}

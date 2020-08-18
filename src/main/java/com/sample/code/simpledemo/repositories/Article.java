@@ -28,10 +28,6 @@ public class Article {
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private int id;
 
-	@ManyToOne
-	@JsonIgnore
-	private UserEntity creator;
-
 	@NotNull
 	private String name;
 
